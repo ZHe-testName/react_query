@@ -1,10 +1,18 @@
+import { useState } from "react";
 import { useSearchPokemon } from "../hooks/hooks";
 
-export default function PokemonSearch({ pokemon }) {
-  const queryInfo = useSearchPokemon(pokemon);
+export default function PokemonSearch() {
+  const [pokemon, setPokeName] = useState('');
 
+  const queryInfo = useSearchPokemon(pokemon);
+console.log(queryInfo);
   return (
     <div>
+      <label htmlFor="">
+        Type name :
+        <input type="text" onChange={e => setPokeName(e.target.value)}/>
+      </label>
+
       {
         queryInfo.isLoading 
           ?

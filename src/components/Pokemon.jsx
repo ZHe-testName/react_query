@@ -4,7 +4,7 @@ import { usePokemons } from "../hooks/hooks";
 export default function Pokemon() {
   const queryInfo = usePokemons();
   const [show, toggle] = useReducer(s => !s, true);
-
+  
   return (
     <div>
       <div>

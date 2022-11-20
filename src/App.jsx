@@ -3,6 +3,8 @@ import './App.css';
 import Pokemon from './components/Pokemon';
 import Count from './components/Count';
 import PokemonSearch from './components/PokemonSearch';
+import MyPosts from './components/MyPosts';
+import ListsItems from './components/ListsItems';
 
 function App() {
   return (
@@ -13,7 +15,11 @@ function App() {
          
         {/* <Pokemon/> */}
 
-        <PokemonSearch pokemon="charizard"/>
+        {/* <PokemonSearch /> */}
+
+        {/* <MyPosts/> */}
+
+        <ListsItems />
       </div>
   );
 }
