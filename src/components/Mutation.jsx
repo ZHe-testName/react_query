@@ -37,7 +37,7 @@ function Posts({ postsQuery }) {
 function PostForm({
   onSubmit,
   clearOnSubmit,
-  submitText
+  buttonText
 }) {
   return (
     <form
@@ -56,12 +56,12 @@ function PostForm({
         <input type="text" placeholder="Enter"/>
       </label>
       
-      <button>Create Post</button>
+      <button>{buttonText}</button>
     </form>
   );
 };
 
-function MutationForm({ createPost }) {
+function MutationForm({ createPost, buttonText }) {
   return (
     <>
       <h2>Create New Post</h2>
@@ -69,6 +69,7 @@ function MutationForm({ createPost }) {
       <PostForm
         onSubmit={createPost}
         clearOnSubmit={true}
+        buttonText={buttonText}
       />
     </>
   );
@@ -100,7 +101,12 @@ export default function MutationPosts() {
 
   //instead createPost we might to use useMutation hook
   // it returned our function and a lot of loading information
-  const {mutate, data} = useMutation((value) => {
+  const {
+      mutate, 
+      isError, 
+      isLoading, 
+      isSuccess
+    } = useMutation((value) => {
     console.log('Create post', value);
 
     return axios
@@ -109,13 +115,25 @@ export default function MutationPosts() {
      })
   },
   {
-    onSuccess: () => { //here we can do everything after successfully loading
-      console.log(data);
+    // onSuccess: (data) => { //here we can do everything after successfully loading
+    //   console.log('JJJJJJJJJJJJJj',data, postsQuery);
 
-      queryClient.invalidateQueries('posts');
+    //   queryClient.invalidateQueries('posts');
+    //   // its for manually refreshing posts
+    //   //it dont need in real life because we will have normal API
+    //   postsQuery.data.find(post => post.id === data.data.id).title = data.data.title;
+    // },
+    onError: (error) => { //this callback used when mutation is broken
+      console.log(error.response.data.message);
+    },
+    onSettled: (data) => { //this callback similar to onSuccess onError but it be called
+      queryClient.invalidateQueries('posts'); //any way lice finaly in try /catch
+      // its for manually refreshing posts
+      //it dont need in real life because we will have normal API
+      // postsQuery.data.find(post => post.id === data.data.id).title = data.data.title;
     },
   });
-
+  
   return (
     <div>
       <Posts postsQuery={postsQuery}/>
@@ -124,7 +142,18 @@ export default function MutationPosts() {
       <hr/>
       <br/>
 
-      <MutationForm createPost={mutate}/>
+      <MutationForm 
+        createPost={mutate} 
+        buttonText={
+          isLoading 
+            ? 'Saving...' 
+            : isError
+              ? 'Error!'
+              : isSuccess
+                ? 'Saved'
+                : 'Create post'
+        }
+      />
     </div>
   );
 };

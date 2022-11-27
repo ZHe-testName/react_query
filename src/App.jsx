@@ -9,6 +9,7 @@ import ServerTime from './components/ServerTime';
 import RandomWrap from './components/Rundom';
 import PrefetchingWrap from './components/Prefetching';
 import MutationPosts from './components/Mutation';
+import MutationPost from './components/MutationPost';
 
 function App() {
   return (
@@ -31,7 +32,9 @@ function App() {
         
         {/* <PrefetchingWrap /> */}
 
-        <MutationPosts />
+        {/* <MutationPosts /> */}
+
+        <MutationPost />
       </div>
   );
 }
