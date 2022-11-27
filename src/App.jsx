@@ -5,6 +5,10 @@ import Count from './components/Count';
 import PokemonSearch from './components/PokemonSearch';
 import MyPosts from './components/MyPosts';
 import ListsItems from './components/ListsItems';
+import ServerTime from './components/ServerTime';
+import RandomWrap from './components/Rundom';
+import PrefetchingWrap from './components/Prefetching';
+import MutationPosts from './components/Mutation';
 
 function App() {
   return (
@@ -19,7 +23,15 @@ function App() {
 
         {/* <MyPosts/> */}
 
-        <ListsItems />
+        {/* <ListsItems /> */}
+
+        {/* <ServerTime/> */}
+
+        {/* <RandomWrap /> */}
+        
+        {/* <PrefetchingWrap /> */}
+
+        <MutationPosts />
       </div>
   );
 }

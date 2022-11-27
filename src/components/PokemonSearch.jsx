@@ -5,7 +5,7 @@ export default function PokemonSearch() {
   const [pokemon, setPokeName] = useState('');
 
   const queryInfo = useSearchPokemon(pokemon);
-console.log(queryInfo);
+  
   return (
     <div>
       <label htmlFor="">
