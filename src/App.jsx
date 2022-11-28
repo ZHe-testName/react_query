@@ -10,6 +10,7 @@ import RandomWrap from './components/Rundom';
 import PrefetchingWrap from './components/Prefetching';
 import MutationPosts from './components/Mutation';
 import MutationPost from './components/MutationPost';
+import Pagination from './components/Pagination';
 
 function App() {
   return (
@@ -34,7 +35,9 @@ function App() {
 
         {/* <MutationPosts /> */}
 
-        <MutationPost />
+        {/* <MutationPost /> */}
+
+        <Pagination />
       </div>
   );
 }

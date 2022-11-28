@@ -72,6 +72,24 @@ export default function MutationPost() {
       .patch(`https://mockend.com/ZHe-testName/mockend/posts/${obj.id}`, obj)
       .then(res => res.data);
   },{
+    onMutate: (data) => { //with backup
+      queryClient.cancelQueries(['post', 1]);
+
+      const oldPost = queryClient.getQueryData(['post', 1]);
+
+      queryClient.setQueryData(['post', 1], data);
+
+      return () => queryClient.setQueryData(['post', 1], oldPost);
+    },
+    onError: (
+      data,
+      values,
+      rollback
+    ) => {
+      if (rollback) {
+        rollback();
+      };
+    },
     onSuccess: (
       data, //this is response object from request
       values //data what we pass in mutate callback

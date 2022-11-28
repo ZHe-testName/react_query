@@ -87,6 +87,9 @@ export default function MutationPosts() {
     },
     {
       refetchOnWindowFocus: false,
+      onError: (e) => {
+        console.log('Error', e);
+      },
     }
   );
 
@@ -110,8 +113,9 @@ export default function MutationPosts() {
     console.log('Create post', value);
 
     return axios
-     .put('https://mockend.com/ZHe-testName/mockend/posts/1', {
-      title: value,
+     .post('https://mockend.com/ZHe-testName/mockend/posts', {
+        id: Date.now(),
+        title: value,
      })
   },
   {
@@ -123,14 +127,47 @@ export default function MutationPosts() {
     //   //it dont need in real life because we will have normal API
     //   postsQuery.data.find(post => post.id === data.data.id).title = data.data.title;
     // },
-    onError: (error) => { //this callback used when mutation is broken
+    onError: (error, values, rollback) => { //this callback used when mutation is broken
       console.log(error.response.data.message);
+      // queryClient.setQueryData('posts', oldPosts);
+      if (rollback) {
+        rollback();
+      };
     },
     onSettled: (data) => { //this callback similar to onSuccess onError but it be called
+      console.log('settled', data);
       queryClient.invalidateQueries('posts'); //any way lice finaly in try /catch
       // its for manually refreshing posts
       //it dont need in real life because we will have normal API
       // postsQuery.data.find(post => post.id === data.data.id).title = data.data.title;
+    },
+    onMutate: (data) => {//{ //this callback runs when when we call mutate and takes its args\'
+      //we can use it for showing some optimistic results while we wait for invalidation in onSuccess
+      console.log('mutate', data);
+      // also good practice is cancel queries to be shure that we dont have any
+      //unexpectable results for queries request
+      queryClient.cancelQueries('posts');
+      //in case whe something going wrong on server(some validation errors, etc)
+      // good idea to return normal state cache for user is take e snapshot before
+      //change query cache
+      //and if something going wrong we can return previous state
+      const oldPosts = queryClient.getQueryData('posts');
+
+      queryClient.setQueriesData('posts', oldValue => {
+        return [
+          ...oldValue,
+          {
+            title: data,
+            id: Date.now(),
+          }
+        ];
+      });
+      // to make rollback we need to return something from onMutate
+      // it become third argument for onError and on Settled callbacks
+      // return oldPosts;
+      // or
+      //we can return function what will be call in prev callbacks
+      return () => queryClient.setQueriesData('posts', oldPosts);
     },
   });
   
