@@ -2,3 +2,4 @@ new line 1
 some new awesome feature
 
 Grait feature line
+Conflict line of code
