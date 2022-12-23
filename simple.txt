@@ -3,3 +3,4 @@ some new awesome feature
 
 Grait feature line
 Conflict line of code
+Local conflict line
