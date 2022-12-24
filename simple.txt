@@ -7,3 +7,4 @@ Local conflict line
 new drowing feature
 hello
 Main conflict line
+Amy's conflict line
