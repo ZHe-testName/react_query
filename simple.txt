@@ -6,3 +6,4 @@ Conflict line of code
 Local conflict line
 new drowing feature
 hello
+Amy's conflict line
